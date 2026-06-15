@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mau Ngedate Sama Aku princess? 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --pink-deep:#c2185b;
+  --pink-mid:#e91e8c;
+  --pink-soft:#f48fb1;
+  --pink-pale:#fce4ec;
+  --pink-blush:#fff0f5;
+  --white:#ffffff;
+  --text-dark:#3d0026;
+  --text-mid:#7b1a4b;
+}
+
+body{
+  min-height:100vh;
+  font-family:'Nunito',sans-serif;
+  background:var(--pink-pale);
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ── Animated petal BG ── */
+.petal{
+  position:fixed;
+  pointer-events:none;
+  font-size:20px;
+  animation:petalFall linear infinite;
+  z-index:0;
+  opacity:0.7;
+}
+@keyframes petalFall{
+  0%{transform:translateY(-60px) rotate(0deg);opacity:.8;}
+  100%{transform:translateY(110vh) rotate(360deg);opacity:0;}
+}
+
+/* ── Floating hearts on edges ── */
+.edge-heart{
+  position:fixed;
+  font-size:28px;
+  animation:edgePulse 3s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes edgePulse{
+  0%,100%{transform:scale(1) translateY(0);opacity:.4;}
+  50%{transform:scale(1.3) translateY(-8px);opacity:.9;}
+}
+
+/* ── SCREEN WRAPPER ── */
+.screen{
+  display:none;
+  min-height:100vh;
+  position:relative;
+  z-index:1;
+}
+.screen.active{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+
+/* ════════════════════════════════
+   SCREEN 1 — Intro
+════════════════════════════════ */
+#screen-intro{
+  background:transparent;
+  padding:40px 20px;
+  text-align:center;
+}
+
+.intro-card{
+  background:var(--white);
+  border-radius:36px;
+  padding:52px 44px 44px;
+  max-width:520px;
+  width:100%;
+  box-shadow:0 20px 60px rgba(194,24,91,.18), 0 4px 16px rgba(194,24,91,.1);
+  position:relative;
+  overflow:hidden;
+}
+.intro-card::before{
+  content:'';
+  position:absolute;
+  top:-60px;right:-60px;
+  width:200px;height:200px;
+  background:radial-gradient(circle,#fce4ec,transparent 70%);
+  border-radius:50%;
+}
+.intro-card::after{
+  content:'';
+  position:absolute;
+  bottom:-50px;left:-50px;
+  width:160px;height:160px;
+  background:radial-gradient(circle,#f8bbd0,transparent 70%);
+  border-radius:50%;
+}
+
+.ribbon{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--pink-mid),var(--pink-deep));
+  color:var(--white);
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  padding:6px 18px;
+  border-radius:50px;
+  margin-bottom:20px;
+}
+
+.big-heart{
+  font-size:90px;
+  display:block;
+  animation:heartbeat 1.2s ease-in-out infinite;
+  margin:0 auto 16px;
+  filter:drop-shadow(0 6px 20px rgba(233,30,140,.4));
+}
+@keyframes heartbeat{
+  0%,100%{transform:scale(1);}
+  14%{transform:scale(1.18);}
+  28%{transform:scale(1);}
+  42%{transform:scale(1.12);}
+  70%{transform:scale(1);}
+}
+
+.intro-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,6vw,3rem);
+  color:var(--pink-deep);
+  line-height:1.1;
+  margin-bottom:10px;
+}
+.intro-sub{
+  font-size:1rem;
+  color:var(--text-mid);
+  margin-bottom:36px;
+  line-height:1.6;
+}
+
+/* Btn group */
+.btn-group{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  flex-wrap:wrap;
+  position:relative;
+  min-height:54px;
+}
+
+.btn-yes{
+  font-family:'Nunito',sans-serif;
+  font-size:1.1rem;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--pink-mid),var(--pink-deep));
+  color:var(--white);
+  border:none;
+  padding:14px 38px;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(233,30,140,.45);
+  transition:transform .2s,box-shadow .2s;
+  position:relative;
+  z-index:2;
+}
+.btn-yes:hover{
+  transform:scale(1.07) translateY(-2px);
+  box-shadow:0 12px 32px rgba(233,30,140,.55);
+}
+.btn-yes:active{transform:scale(.97);}
+
+.btn-no{
+  font-family:'Nunito',sans-serif;
+  font-size:1rem;
+  font-weight:700;
+  background:var(--white);
+  color:var(--pink-mid);
+  border:2px solid var(--pink-soft);
+  padding:13px 32px;
+  border-radius:50px;
+  cursor:pointer;
+  position:fixed;
+  transition:box-shadow .15s;
+  z-index:999;
+  white-space:nowrap;
+}
+.btn-no:hover{box-shadow:0 6px 20px rgba(233,30,140,.2);}
+
+/* Stars deco */
+.star-row{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:28px;
+  font-size:22px;
+}
+
+/* ════════════════════════════════
+   SCREEN 2 — Form
+════════════════════════════════ */
+#screen-form{
+  padding:40px 20px;
+  text-align:center;
+}
+
+.form-card{
+  background:var(--white);
+  border-radius:36px;
+  padding:48px 40px 44px;
+  max-width:560px;
+  width:100%;
+  box-shadow:0 20px 60px rgba(194,24,91,.15);
+  animation:fadeUp .6s ease;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.form-title{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;
+  color:var(--pink-deep);
+  margin-bottom:6px;
+}
+.form-sub{
+  color:var(--text-mid);
+  font-size:.95rem;
+  margin-bottom:32px;
+}
+
+.field-group{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  text-align:left;
+  margin-bottom:28px;
+}
+.field label{
+  display:block;
+  font-size:.8rem;
+  font-weight:700;
+  color:var(--pink-deep);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+.field input, .field select{
+  width:100%;
+  padding:13px 16px;
+  border:2px solid var(--pink-soft);
+  border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-size:1rem;
+  color:var(--text-dark);
+  background:var(--pink-blush);
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  appearance:none;
+}
+.field input:focus, .field select:focus{
+  border-color:var(--pink-mid);
+  box-shadow:0 0 0 4px rgba(233,30,140,.12);
+}
+.field input::placeholder{color:#e8a0be;}
+
+.btn-submit{
+  width:100%;
+  font-family:'Nunito',sans-serif;
+  font-size:1.1rem;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--pink-mid),var(--pink-deep));
+  color:var(--white);
+  border:none;
+  padding:15px;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(233,30,140,.4);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(233,30,140,.5);}
+.btn-submit:active{transform:scale(.97);}
+
+.error-msg{
+  font-size:.8rem;
+  color:#e91e63;
+  margin-top:4px;
+  display:none;
+}
+
+/* ════════════════════════════════
+   SCREEN 3 — Invitation Card
+════════════════════════════════ */
+#screen-card{
+  padding:40px 20px;
+}
+
+.envelope-wrap{
+  perspective:1000px;
+}
+
+.invitation{
+  background:var(--white);
+  border-radius:36px;
+  max-width:520px;
+  width:100%;
+  box-shadow:0 24px 64px rgba(194,24,91,.22);
+  overflow:hidden;
+  animation:fadeUp .7s ease;
+  position:relative;
+}
+
+.inv-header{
+  background:linear-gradient(135deg,var(--pink-mid),var(--pink-deep));
+  padding:36px 36px 28px;
+  text-align:center;
+  position:relative;
+}
+.inv-header::after{
+  content:'';
+  position:absolute;
+  bottom:-24px;left:0;right:0;height:48px;
+  background:var(--white);
+  border-radius:50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.inv-icon{font-size:64px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));margin-bottom:10px;}
+.inv-headline{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;
+  color:var(--white);
+  text-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.inv-to-label{
+  font-size:.85rem;
+  color:rgba(255,255,255,.85);
+  margin-top:4px;
+  font-style:italic;
+}
+
+.inv-body{
+  padding:40px 36px 36px;
+  text-align:center;
+}
+
+.inv-name{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;
+  color:var(--pink-deep);
+  margin-bottom:24px;
+  animation:namePop .5s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes namePop{
+  from{transform:scale(.6);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+
+.inv-details{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  text-align:left;
+}
+.inv-row{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:13px 0;
+  border-bottom:1px dashed #f8bbd0;
+}
+.inv-row:last-child{border-bottom:none;}
+.inv-icon-sm{font-size:22px;flex-shrink:0;margin-top:2px;}
+.inv-label{
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--pink-soft);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  line-height:1;
+  margin-bottom:3px;
+}
+.inv-value{
+  font-size:1rem;
+  font-weight:700;
+  color:var(--text-dark);
+}
+.inv-value.typing::after{
+  content:'|';
+  color:var(--pink-mid);
+  animation:blink .6s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+.inv-footer-msg{
+  margin-top:28px;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:1.15rem;
+  color:var(--pink-deep);
+  opacity:0;
+  transition:opacity .8s ease;
+}
+.inv-footer-msg.show{opacity:1;}
+
+.inv-seal{
+  text-align:center;
+  font-size:40px;
+  padding:20px 0 30px;
+  animation:spinIn .6s ease;
+}
+@keyframes spinIn{
+  from{transform:rotate(-180deg) scale(0);opacity:0;}
+  to{transform:rotate(0deg) scale(1);opacity:1;}
+}
+
+/* Confetti */
+.confetti-piece{
+  position:fixed;
+  font-size:20px;
+  pointer-events:none;
+  animation:cffall 2s ease-in forwards;
+  z-index:9999;
+}
+@keyframes cffall{
+  0%{transform:translateY(-30px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
+
+/* Share button */
+.btn-share{
+  display:block;
+  margin:20px auto 0;
+  font-family:'Nunito',sans-serif;
+  font-size:.95rem;
+  font-weight:700;
+  background:transparent;
+  color:var(--pink-mid);
+  border:2px solid var(--pink-soft);
+  padding:11px 28px;
+  border-radius:50px;
+  cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.btn-share:hover{background:var(--pink-pale);color:var(--pink-deep);}
+
+/* ── Responsive ── */
+@media(max-width:480px){
+  .intro-card,.form-card,.invitation{padding:36px 22px 32px;}
+  .inv-body{padding:36px 22px 28px;}
+  .inv-header{padding:28px 22px 22px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Falling petals ── -->
+<div id="petals"></div>
+
+<!-- Edge hearts -->
+<div class="edge-heart" style="left:16px;top:15%;animation-delay:0s;">🌸</div>
+<div class="edge-heart" style="right:16px;top:25%;animation-delay:.8s;">💕</div>
+<div class="edge-heart" style="left:10px;top:55%;animation-delay:1.6s;">✨</div>
+<div class="edge-heart" style="right:12px;top:70%;animation-delay:.4s;">🌸</div>
+<div class="edge-heart" style="left:18px;top:82%;animation-delay:1.2s;">💖</div>
+
+<!-- ════════ SCREEN 1 — Intro ════════ -->
+<div class="screen active" id="screen-intro">
+  <div class="intro-card">
+    <span class="ribbon">💌 Special For Hamiza alifia syahara</span>
+    <span class="big-heart">💖</span>
+    <h1 class="intro-title">Mau Ngedate<br>Sama Aku Princess?</h1>
+    <p class="intro-sub">Ada sesuatu yang ingin dirikuu tanyakan...<br>isi yaa bebee 🥺</p>
+
+    <div class="btn-group">
+      <button class="btn-yes" id="yesBtn">Mau banget! 💕</button>
+      <span id="noProxy" style="visibility:hidden;pointer-events:none;">
+        <button class="btn-no" tabindex="-1">Tidak mau 🙈</button>
+      </span>
+    </div>
+
+    <div class="star-row">⭐ 💗 ⭐ 💗 ⭐</div>
+  </div>
+</div>
+
+<!-- Runaway No button (fixed, outside container) -->
+<button class="btn-no" id="noBtn">Tidak mau 🙈</button>
+
+<!-- ════════ SCREEN 2 — Form ════════ -->
+<div class="screen" id="screen-form">
+  <div class="form-card">
+    <div style="font-size:52px;margin-bottom:12px;">🥰</div>
+    <h2 class="form-title">Yeay! Aku senang sekali!</h2>
+    <p class="form-sub">Isi data di bawah supaya undanganmu bisa aku siapkan 💌</p>
+
+    <div class="field-group">
+      <div class="field">
+        <label>Nama Kamu</label>
+        <input type="text" id="inp-name" placeholder="Nama lengkapmu..." maxlength="40">
+        <div class="error-msg" id="err-name">Nama wajib diisi ya 🥺</div>
+      </div>
+      <div class="field">
+        <label>Hari Date</label>
+        <select id="inp-day">
+          <option value="">— Pilih hari —</option>
+          <option>Senin</option><option>Selasa</option><option>Rabu</option>
+          <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+        </select>
+        <div class="error-msg" id="err-day">Pilih harinya dulu 💕</div>
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="inp-date">
+        <div class="error-msg" id="err-date">Tanggalnya belum diisi 📅</div>
+      </div>
+      <div class="field">
+        <label>Jam Jemput</label>
+        <input type="time" id="inp-time" value="19:00">
+        <div class="error-msg" id="err-time">Jam belum diisi 🕖</div>
+      </div>
+      <div class="field">
+        <label>Tujuan / Tempat</label>
+        <input type="text" id="inp-place" placeholder="Contoh: Dinner romantis di..." maxlength="60">
+        <div class="error-msg" id="err-place">Mau ke mana? 📍</div>
+      </div>
+      <div class="field">
+        <label>Dress Code</label>
+        <input type="text" id="inp-dress" placeholder="Contoh: Pink & Putih 🌸" maxlength="40">
+      </div>
+    </div>
+
+    <button class="btn-submit" id="submitBtn">Buat Kartu Undangan 💌</button>
+  </div>
+</div>
+
+<!-- ════════ SCREEN 3 — Invitation Card ════════ -->
+<div class="screen" id="screen-card">
+  <div class="envelope-wrap">
+    <div class="invitation">
+      <div class="inv-header">
+        <span class="inv-icon">💌</span>
+        <h2 class="inv-headline">Undangan Date Spesial</h2>
+        <p class="inv-to-label">Kepada yang my princess,</p>
+      </div>
+      <div class="inv-body">
+        <div class="inv-name" id="inv-name"></div>
+        <div class="inv-details">
+          <div class="inv-row">
+            <span class="inv-icon-sm">📅</span>
+            <div>
+              <div class="inv-label">Hari</div>
+              <div class="inv-value" id="inv-day"></div>
+            </div>
+          </div>
+          <div class="inv-row">
+            <span class="inv-icon-sm">📆</span>
+            <div>
+              <div class="inv-label">Tanggal</div>
+              <div class="inv-value" id="inv-date"></div>
+            </div>
+          </div>
+          <div class="inv-row">
+            <span class="inv-icon-sm">🕖</span>
+            <div>
+              <div class="inv-label">Jam Jemput</div>
+              <div class="inv-value" id="inv-time"></div>
+            </div>
+          </div>
+          <div class="inv-row">
+            <span class="inv-icon-sm">📍</span>
+            <div>
+              <div class="inv-label">Tujuan</div>
+              <div class="inv-value" id="inv-place"></div>
+            </div>
+          </div>
+          <div class="inv-row" id="dress-row">
+            <span class="inv-icon-sm">🌹</span>
+            <div>
+              <div class="inv-label">Dress Code</div>
+              <div class="inv-value" id="inv-dress"></div>
+            </div>
+          </div>
+        </div>
+        <p class="inv-footer-msg" id="inv-footer">Lovee u bebeee ❤️</p>
+        <div class="inv-seal" id="inv-seal" style="display:none;">💍</div>
+      </div>
+    </div>
+    <button class="btn-share" id="restartBtn">← Buat undangan baru</button>
+  </div>
+</div>
+
+<script>
+/* ════════ Petals ════════ */
+const petalContainer = document.getElementById('petals');
+const petalEmojis = ['🌸','🌺','💮','🌹','🪷'];
+for(let i=0;i<25;i++){
+  const p=document.createElement('div');
+  p.classList.add('petal');
+  p.textContent=petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+  p.style.left=Math.random()*100+'%';
+  p.style.fontSize=(12+Math.random()*18)+'px';
+  p.style.animationDuration=(6+Math.random()*10)+'s';
+  p.style.animationDelay=(Math.random()*10)+'s';
+  p.style.opacity=0.4+Math.random()*0.4;
+  petalContainer.appendChild(p);
+}
+
+/* ════════ Runaway No Button ════════ */
+const noBtn=document.getElementById('noBtn');
+let noVisible=true;
+
+function placeNoInitial(){
+  const bw=noBtn.offsetWidth||160;
+  const bh=noBtn.offsetHeight||52;
+  noBtn.style.left=(window.innerWidth*.62)+'px';
+  noBtn.style.top=(window.innerHeight*.5-bh/2)+'px';
+}
+setTimeout(placeNoInitial,50);
+
+function runAway(){
+  if(!noVisible)return;
+  const bw=noBtn.offsetWidth||160,bh=noBtn.offsetHeight||52,pad=16;
+  const maxX=window.innerWidth-bw-pad, maxY=window.innerHeight-bh-pad;
+  const curX=parseFloat(noBtn.style.left)||0, curY=parseFloat(noBtn.style.top)||0;
+  let nx,ny,attempts=0;
+  do{nx=pad+Math.random()*maxX;ny=pad+Math.random()*maxY;attempts++;}
+  while(attempts<12&&Math.abs(nx-curX)<120&&Math.abs(ny-curY)<90);
+  noBtn.style.transition='left .15s ease,top .15s ease';
+  noBtn.style.left=nx+'px';noBtn.style.top=ny+'px';
+}
+
+noBtn.addEventListener('mouseover',runAway);
+noBtn.addEventListener('touchstart',e=>{e.preventDefault();runAway();},{passive:false});
+noBtn.addEventListener('click',runAway);
+window.addEventListener('resize',()=>{
+  const bw=noBtn.offsetWidth||160,bh=noBtn.offsetHeight||52;
+  noBtn.style.left=Math.min(parseFloat(noBtn.style.left)||0,window.innerWidth-bw-16)+'px';
+  noBtn.style.top=Math.min(parseFloat(noBtn.style.top)||0,window.innerHeight-bh-16)+'px';
+});
+
+/* ════════ Screen switcher ════════ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ════════ Yes → Form ════════ */
+document.getElementById('yesBtn').addEventListener('click',()=>{
+  noVisible=false;
+  noBtn.style.transition='opacity .3s';
+  noBtn.style.opacity='0';
+  noBtn.style.pointerEvents='none';
+  confettiBurst();
+  setTimeout(()=>showScreen('screen-form'),400);
+});
+
+/* ════════ Form → Card ════════ */
+document.getElementById('submitBtn').addEventListener('click',()=>{
+  const name=document.getElementById('inp-name').value.trim();
+  const day=document.getElementById('inp-day').value;
+  const date=document.getElementById('inp-date').value;
+  const time=document.getElementById('inp-time').value;
+  const place=document.getElementById('inp-place').value.trim();
+  const dress=document.getElementById('inp-dress').value.trim();
+
+  let valid=true;
+  const fields=[
+    {val:name,err:'err-name'},
+    {val:day,err:'err-day'},
+    {val:date,err:'err-date'},
+    {val:time,err:'err-time'},
+    {val:place,err:'err-place'},
+  ];
+  fields.forEach(f=>{
+    const el=document.getElementById(f.err);
+    if(!f.val){el.style.display='block';valid=false;}
+    else el.style.display='none';
+  });
+  if(!valid)return;
+
+  /* Format date */
+  const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const d=new Date(date);
+  const dateStr=d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+
+  /* Format time */
+  const [h,m]=time.split(':');
+  const timeStr=h+'.'+m+' WIB';
+
+  /* Pass data */
+  const data={name,day,date:dateStr,time:timeStr,place,dress};
+
+  showScreen('screen-card');
+  setTimeout(()=>animateCard(data),300);
+});
+
+/* ════════ Animate Card ════════ */
+function animateCard(data){
+  /* Name pops in immediately */
+  document.getElementById('inv-name').textContent=data.name;
+
+  /* Type each row with delay */
+  const rows=[
+    {id:'inv-day',  text:data.day,   speed:80},
+    {id:'inv-date', text:data.date,  speed:55},
+    {id:'inv-time', text:data.time,  speed:70},
+    {id:'inv-place',text:data.place, speed:38},
+    {id:'inv-dress',text:data.dress||'— Bebas, yang penting cantik! 💕', speed:45},
+  ];
+
+  function typeEl(el,text,speed,cb){
+    el.classList.add('typing');
+    let i=0;
+    const t=setInterval(()=>{
+      el.textContent+=text[i];i++;
+      if(i>=text.length){clearInterval(t);el.classList.remove('typing');if(cb)cb();}
+    },speed);
+  }
+
+  function typeRow(idx){
+    if(idx>=rows.length){
+      /* Show footer */
+      setTimeout(()=>{
+        document.getElementById('inv-footer').classList.add('show');
+        setTimeout(()=>{
+          document.getElementById('inv-seal').style.display='block';
+          confettiBurst();
+        },600);
+      },300);
+      return;
+    }
+    const r=rows[idx];
+    const el=document.getElementById(r.id);
+    setTimeout(()=>typeEl(el,r.text,r.speed,()=>typeRow(idx+1)),220);
+  }
+  typeRow(0);
+}
+
+/* ════════ Confetti ════════ */
+function confettiBurst(){
+  const emojis=['🎉','💕','🌸','💖','✨','🥰','💝','🌟','🎀','💗'];
+  for(let i=0;i<50;i++){
+    const c=document.createElement('div');
+    c.classList.add('confetti-piece');
+    c.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left=(5+Math.random()*90)+'%';
+    c.style.top='-30px';
+    c.style.fontSize=(14+Math.random()*22)+'px';
+    c.style.animationDelay=(Math.random()*1)+'s';
+    document.body.appendChild(c);
+    c.addEventListener('animationend',()=>c.remove());
+  }
+}
+
+/* ════════ Restart ════════ */
+document.getElementById('restartBtn').addEventListener('click',()=>{
+  /* Reset form */
+  ['inp-name','inp-place','inp-dress'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('inp-day').value='';
+  document.getElementById('inp-date').value='';
+  document.getElementById('inp-time').value='19:00';
+  /* Reset card */
+  ['inv-name','inv-day','inv-date','inv-time','inv-place','inv-dress'].forEach(id=>document.getElementById(id).textContent='');
+  document.getElementById('inv-footer').classList.remove('show');
+  document.getElementById('inv-seal').style.display='none';
+  /* Reset No button */
+  noVisible=true;
+  noBtn.style.opacity='1';
+  noBtn.style.pointerEvents='auto';
+  placeNoInitial();
+  showScreen('screen-intro');
+});
+</script>
+</body>
+</html>
